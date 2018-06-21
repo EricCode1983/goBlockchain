@@ -27,7 +27,7 @@ type Block struct {
 type Message struct {
 	BPM int
 }
-func calculateHash(block Block) string{
+func CalculateBlockHash(block Block) string{
 	record:=string(block.Index)+block.TimeStamp+string(block.BPM)+block.PreHash
 	h:=sha256.New()
 	h.Write([]byte(record))
@@ -42,7 +42,7 @@ func generateBlock(oldBlock Block,BPM int)(Block,error){
 	 newBlock.TimeStamp=t.String()
 	 newBlock.BPM=BPM
 	 newBlock.PreHash=oldBlock.Hash
-	 newBlock.Hash=calculateHash(newBlock)
+	 newBlock.Hash=CalculateBlockHash(newBlock)
 	 return newBlock,nil
 }
 
@@ -55,7 +55,7 @@ func isBlockValid(newBlock,oldBlock Block) bool{
 		return false
 	}
 
-	if calculateHash(newBlock)!= newBlock.Hash{
+	if CalculateBlockHash(newBlock)!= newBlock.Hash{
 		return false
 	}
 
